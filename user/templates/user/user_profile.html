@@ -1,0 +1,134 @@
+{% extends "home/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block head %}
+{% endblock head %}
+{% block body %}
+<div class="site-blocks-cover" style="overflow: hidden;">
+	<div class="container">
+		<div class="row align-items-center justify-content-center">
+			<div class="col-md-12" style="position: relative;" data-aos="fade-up" data-aos-delay="200">
+				<img src="{%static 'home/images/undraw_investing_7u74.svg' %}" alt="Image" class="img-fluid img-absolute">
+				<div class="row mb-4" data-aos="fade-up" data-aos-delay="200">
+					<div class="col-lg-6 mr-auto">
+						<h1>{{user.name}}</h1>
+						<h3 class="mb-3">Rating: {{user.ratings}}/5</h3>
+                        <h3 class="mb-3">Total Coins: {{user.coins}}</h3>
+						{% if request.user.id == user.id %}
+						<div>
+							<a href="{% url 'post-feed' %}" class="btn btn-primary mr-2 mb-2">POST A FEED</a>
+                            <a href="{% url 'post_resource' %}" class="btn btn-primary mr-2 mb-2">POST A RESOURCE</a>
+						</div>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% if request.user.id != user.id %}
+<div class="site-section bg-image2 overlay" id="post" style="background-image: url('static/home/images/hero_1.jpg');">
+	<div class="container">
+		<div class="row mb-5">
+			<div class="col-12 text-center">
+				<h2 class="section-title mb-3 text-white">Rate the User</h2>
+			</div>
+		</div>
+		<div class="row justify-content-center">
+			<div class="col-lg-7 mb-5">
+				<form method="POST" action="#" class="p-5 bg-white">
+					{% csrf_token %}
+					{{form|crispy}}
+					<div class="col-md-12">
+						<input type="submit" value="Submit" class="btn btn-primary mr-2 mb-2">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+
+<div class="site-section" id="our-team-section">
+	<div class="container">
+		
+		<div class="row mb-5">
+            <div class="col-12 text-center">
+                <h2 class="section-title mb-3">Resources</h2>
+            </div>
+        </div>
+		<div class="row mt-5">
+			{% if resources %}
+            {% for resource in resources %}
+			<div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+				<div class="person">
+					<iframe frameborder="0" scrolling="no"
+                        width="100%" height="20%"
+                        src="{{resource.preview.url}}">
+                    </iframe>
+					<h2 class="text-black h1">{{resource.title}}</h2>
+					<span class="sub-title d-block mb-3">By: {{resource.owner.name}}</span>
+                    <div class="meta mb-2">{{resource.subject.subject_code}} <span class="mx-2">&bullet;</span>{{resource.subject.subject_name}}<span
+                        class="mx-2">&bullet;</span> <a href="#">{{resource.owner.ratings}}/5</a></div>
+                    <h2 class="text-black h1"><i class="fas fa-coins"></i> {{resource.cost}}</h2>
+					<p>{{resource.description}}</p>
+                    <div>
+                        <a href="{% url 'update_resource' resource.id %}" class="btn btn-primary mr-2 mb-2">Update Resource</a>
+                    </div>
+				</div>
+			</div>
+            {% endfor %}
+			{% else %}
+			<div class="row mb-5">
+				<div class="col-12 text-center">
+					<h4 class="section-title mb-3">No Resources posted by {{user.name}}!</h4>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+
+<div class="site-section" id="blog-section">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h2 class="section-title mb-3">Feeds</h2>
+            </div>
+        </div>
+        <div class="row">
+			{% if feeds %}
+            {% for feed in feeds %}
+            <div class="col-md-12 col-lg-12 mb-4 mb-lg-4">
+                <div class="h-entry">
+                    <!-- <img src="{%static 'home/images/img_1.jpg' %}" alt="Image" class="img-fluid w-100"> -->
+                    <div style="border-left: 10px solid #4285f4; padding: 20px;">
+                        <h2><a href="#">{{feed.title}}</a></h2>
+                        <div class="meta mb-4"><a href="{% url 'user_profile' feed.author.id %}">{{feed.author.name}}</a> <span class="mx-2">&bullet;</span> {{feed.date}}<span
+                                class="mx-2">&bullet;</span> <a href="#">{{feed.post_type}}</a></div>
+                        <p>{{feed.description}}</p>
+                        <p><a href="{% url 'feed_details' feed.id %}">Continue Reading...</a></p>
+						{% if request.user.id == user.id %}
+                        <div>
+                            <a href="{% url 'update_feed' feed.id%}" class="btn btn-primary mr-2 mb-2">Update Post</a>
+                            <a href="{% url 'delete_feed' feed.id%}" class="btn btn-primary mr-2 mb-2">Delete Post</a>
+                        </div>
+						{% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %} 
+			{% else %}
+			<div class="row mb-5">
+				<div class="col-12 text-center">
+					<h4 class="section-title mb-3">No Feeds Posted by {{user.name}}!</h4>
+				</div>
+			</div>
+			{% endif %}
+            
+        </div>
+    </div>
+</div>
+
+{% endblock body %}

@@ -1,0 +1,50 @@
+{% extends "home/base.html" %}
+{% load static %}
+{% block head %}
+{% endblock head %}
+{% block body %}
+<div class="site-blocks-cover" style="overflow: hidden;">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-md-12" style="position: relative;" data-aos="fade-up" data-aos-delay="200">
+                <img src="{%static 'home/images/undraw_gift_card_6ekc.svg' %}" alt="Image"
+                    class="img-fluid img-absolute">
+                <div class="row mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="col-lg-6 mr-auto">
+                        <h1>Dashboard for Company</h1>
+                        <br><br>
+                        <div>
+                            <a href="{% url 'add' %}" class="btn btn-primary mr-2 mb-2">Add a Coupon</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="site-section" id="features-section">
+	<div class="container">
+		<div class="row align-items-stretch">
+			{% for coupon in coupons %}
+			<div class="col-md-6 col-lg-4 mb-4 mb-lg-4" data-aos="fade-up">
+				<div class="unit-4 d-block">
+					<div class="unit-4-icon mb-3">
+                        <span class="icon-wrap"><span class="text-primary icon-store_mall_directory"></span></span>					</div>
+					<div>
+						<h3>{{ coupon.coupon.company.name }}</h3>
+                        <h5><i class="fas fa-coins"></i> {{ coupon.coupon.cost }}</h5>
+						<p>{{ coupon.coupon.description }}</p>
+                        <h3>{{ coupon.unique_code }}</h3>
+						<div>
+                            <a href="{% url 'issued' coupon.id %}" class="btn btn-primary mr-2 mb-2">Delete</a>
+                        </div>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+{% endblock body %}

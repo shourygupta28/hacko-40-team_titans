@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+<script type="text/jscript">
+  function rightclick() {
+      var rightclick;
+      var e = window.event;
+      if (e.which) rightclick = (e.which == 3);
+      else if (e.button) rightclick = (e.button == 2);
+       // true or false, you can trap right click here by if comparison
+  }  
+</script>
+
+</head>
+<body ondown=rightclmouseick();>
+  <center>
+    <div id="pdf" style="height: 100vh; width: 100vh;" onmousedown=rightclick(); >
+      <object onmousedown=rightclick(); width="100%" height="100%" type="application/pdf" data="{{ resource.pdf_file.url }}#toolbar=0" id="pdf_content">
+          <p>Insert your error message here, if the PDF cannot be displayed.</p>
+      </object>
+    </div>
+  </center>
+
+</body>
+</html>

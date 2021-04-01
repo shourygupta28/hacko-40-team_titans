@@ -48,27 +48,57 @@
                     <div class="col-12 col-md-9 col-xl-8 main-menu">
                         <nav class="site-navigation position-relative text-right" role="navigation">
                             <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block ml-0 pl-0">
-                                <li><a href="#home-section" class="nav-link">Home</a></li>
-                                <li><a href="#features-section" class="nav-link">Features</a></li>
+                                <!-- <li><a href="#home-section" class="nav-link">Feeds</a></li>
+                                <li><a href="#features-section" class="nav-link">Features</a></li> -->
                                 <li class="has-children">
-                                    <a href="#about-section" class="nav-link">About Us</a>
+                                    <a href="#about-section" class="nav-link">Feeds</a>
                                     <ul class="dropdown arrow-top">
-                                        <li><a href="#" target="_blank" class="nav-link"><span class="text-primary">More
-                                                    Free Templates</span></a></li>
-                                        <li><a href="#our-team-section" class="nav-link">Our Team</a></li>
-                                        <li class="has-children">
+                                        <li><a href="{% url 'feeds' %}" class="nav-link"><span class="text-primary">All Feeds</span></a></li>
+                                        <li><a href="{% url 'my_feeds' %}" class="nav-link">My Feeds</a></li>
+                                        <li><a href="{% url 'post-feed' %}" class="nav-link">Post Something</a></li>
+                                        <!-- <li class="has-children">
                                             <a href="#">More Links</a>
                                             <ul class="dropdown">
                                                 <li><a href="#">Menu One</a></li>
                                                 <li><a href="#">Menu Two</a></li>
                                                 <li><a href="#">Menu Three</a></li>
                                             </ul>
-                                        </li>
+                                        </li> -->
                                     </ul>
                                 </li>
-                                <li><a href="#testimonials-section" class="nav-link">Testimonials</a></li>
-                                <li><a href="#blog-section" class="nav-link">Blog</a></li>
-                                <li><a href="#contact-section" class="nav-link">Contact</a></li>
+                                <li class="has-children">
+                                    <a href="#" class="nav-link">Resources</a>
+                                    <ul class="dropdown arrow-top">
+                                        <li><a href="{% url 'all-resources' %}" class="nav-link"><span class="text-primary">All Resources</span></a></li>
+                                        <li><a href="{% url 'post_resource' %}" class="nav-link">Add Resources</a></li>
+                                        <li><a href="{% url 'my_bought_resources' %}" class="nav-link">Bought Resources</a></li>
+                                        <li><a href="{% url 'my_posted_resources' %}" class="nav-link">Posted Resources</a></li>
+                                    </ul>
+                                </li>
+                                <li class="has-children">
+                                    <a href="#" class="nav-link">Coupons</a>
+                                    <ul class="dropdown arrow-top">
+                                        <li><a href="{% url 'available' %}" class="nav-link"><span class="text-primary">All Coupons</span></a></li>
+                                        <li><a href="{% url 'purchased' %}" class="nav-link">Purchased Coupons</a></li>
+                                        {% if user.is_company %}
+                                        <li><a href="{% url 'dashboard' %}" class="nav-link">Dashboard</a></li>
+                                        {% endif %}
+                                    </ul>
+                                </li>
+                                {% if user.is_authenticated %}
+                                <li class="has-children">
+                                    <a href="#" class="nav-link">Hey {{ request.user.name }}</a>
+                                    <ul class="dropdown arrow-top">
+                                        <li><a href="{% url 'logout' %}" class="nav-link"><span class="text-primary">Logout</span></a></li>
+                                        <li><a href="{% url 'user_profile' request.user.id %}" class="nav-link">Profile</a></li>
+                                        <li><a href="#" class="nav-link">{{user_balance}} Honey</a></li>
+                                    </ul>
+                                </li>
+                                {% else %}
+                                <li><a href="{% url 'login' %}" class="nav-link">Login/Signup</a></li>
+                                <!-- <li><a href="#blog-section" class="nav-link">Blog</a></li>
+                                <li><a href="#contact-section" class="nav-link">Contact</a></li> -->
+                                {% endif %}
                             </ul>
                         </nav>
                     </div>
@@ -78,8 +108,9 @@
                 </div>
             </div>
         </header>
+        
         {% if messages %}
-            {% for message in messages %}
+            {% for message in messages %}<br>
                 <div style="background: black; height:80px; width: 100%"></div>
                  <ul class="messages"
                     style="background: #3787a6; width: 100%; color: rgb(255,255,255); text-align: center; margin: 0px; padding: 10px;">

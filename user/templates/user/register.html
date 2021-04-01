@@ -1,0 +1,132 @@
+{% load crispy_forms_tags %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <title>TU-TROQUER</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,700" rel="stylesheet">
+    <link rel="stylesheet" href="{%static 'home/fonts/icomoon/style.css' %}">
+    <link rel="stylesheet" href="{%static 'home/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{%static 'home/css/jquery-ui.css' %}">
+    <link rel="stylesheet" href="{%static 'home/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{%static 'home/css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{%static 'home/css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{%static 'home/css/jquery.fancybox.min.css' %}">
+    <link rel="stylesheet" href="{%static 'home/css/bootstrap-datepicker.css' %}">
+    <link rel="stylesheet" href="{%static 'home/fonts/flaticon/font/flaticon.css' %}">
+    <link rel="stylesheet" href="{%static 'home/css/aos.css' %}">
+    <link rel="stylesheet" href="{%static 'home/css/style.css' %}">
+</head>
+
+<body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+    <div id="overlayer"></div>
+    <div class="loader">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <div class="site-wrap" id="home-section">
+        <div class="site-mobile-menu site-navbar-target">
+            <div class="site-mobile-menu-header">
+                <div class="site-mobile-menu-close mt-3">
+                    <span class="icon-close2 js-menu-toggle"></span>
+                </div>
+            </div>
+            <div class="site-mobile-menu-body"></div>
+        </div>
+        {% if messages %}
+        {% for message in messages %}
+        <div style="background: black; height:80px; width: 100%"></div>
+        <ul class="messages"
+            style="background: #3787a6; width: 100%; color: rgb(255,255,255); text-align: center; margin: 0px; padding: 10px;">
+            <h1 style="font-weight: 600; font-size: 25px; margin: 0px;">{{ message }}</h1>
+        </ul>
+        {% endfor %}
+        {% endif %}
+
+
+        <div class="site-section bg-image2 overlay" style="padding-top:1rem; background-image: url('static/home/images/hero_1.jpg');">
+            <div class="container">
+                <div class="row mb-5 mt-5">
+                    <div class="col-12 text-center">
+                        <h2 class="section-title mb-3 text-white">Register</h2>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-lg-7 mb-5">
+                        <form method="POST" class="p-5 bg-white">
+                            {% csrf_token %}
+                            {{form|crispy}}
+                            <div class="col-md-12">
+                                <input type="submit" value="Submit" class="btn btn-primary mr-2 mb-2">
+                            </div>
+                            <small>Already have an account? <a href="{% url 'login' %}">Login</a>
+                                here</small>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="footer py-5 text-center">
+            <div class="container">
+                <div class="row mb-5">
+                    <div class="col-12">
+                        <p class="mb-0">
+                            <a href="#" class="p-3"><span class="icon-facebook"></span></a>
+                            <a href="#" class="p-3"><span class="icon-twitter"></span></a>
+                            <a href="#" class="p-3"><span class="icon-instagram"></span></a>
+                            <a href="#" class="p-3"><span class="icon-linkedin"></span></a>
+                            <a href="#" class="p-3"><span class="icon-pinterest"></span></a>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="mb-0">
+
+                            Copyright &copy;
+                            <script>document.write(new Date().getFullYear());</script> All rights reserved | This
+                            template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a
+                                href="https://colorlib.com/" target="_blank">Team TU-Troquer</a>
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{%static 'home/js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{%static 'home/js/jquery-ui.js' %}"></script>
+    <script src="{%static 'home/js/popper.min.js' %}"></script>
+    <script src="{%static 'home/js/bootstrap.min.js' %}"></script>
+    <script src="{%static 'home/js/owl.carousel.min.js' %}"></script>
+    <script src="{%static 'home/js/jquery.countdown.min.js' %}"></script>
+    <script src="{%static 'home/js/bootstrap-datepicker.min.js' %}"></script>
+    <script src="{%static 'home/js/jquery.easing.1.3.js' %}"></script>
+    <script src="{%static 'home/js/aos.js' %}"></script>
+    <script src="{%static 'home/js/jquery.fancybox.min.js' %}"></script>
+    <script src="{%static 'home/js/jquery.sticky.js' %}"></script>
+    <script src="{%static 'home/js/main.js' %}"></script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+
+    <script src="https://kit.fontawesome.com/36dfc98c6a.js" crossorigin="anonymous"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-23581568-13');
+    </script>
+</body>
+
+<!-- Mirrored from preview.colorlib.com/theme/imagine/ by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 26 Mar 2021 18:55:02 GMT -->
+
+</html>

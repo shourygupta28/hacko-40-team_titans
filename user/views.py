@@ -8,6 +8,8 @@ from django.contrib import messages
 from django.http import HttpResponse
 User = get_user_model()
 from django.contrib.auth.decorators import login_required
+from resources.models import Resource
+from home.models import Feed
 
 def register(request):
     if request.method == 'POST':
@@ -39,4 +41,31 @@ def calculate_ratings(id):
     ratings = round(total_ratings/n, 1)
 
     return ratings
+
+
+@login_required
+def user_profile_resources(request, pk):
+    user = User.objects.get(id=pk)
+    if(request.method == 'POST'):
+        form = RatingsForm(request.POST)
+        if form.is_valid():
+            form.save()
+            form.instance.rating_of = user
+            form.instance.rated_by = request.user
+            form.save()
+            user.ratings = calculate_ratings(pk)
+            user.save()
+
+    feeds = Feed.objects.filter(author=user)
+    resources = Resource.objects.filter(owner=user)
+    context = {
+        'form' : RatingsForm(),
+        'user' : user,
+        'resources' : resources,
+        'feeds' : feeds,
+    }
+
+    return render(request, 'user/user_profile.html', context)
+
+
 

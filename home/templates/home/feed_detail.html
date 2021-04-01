@@ -1,67 +1,68 @@
 {% extends "home/base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block head %}
 <style>
     .card {
-    border: none;
-    box-shadow: 5px 6px 6px 2px #e9ecef;
-    border-radius: 4px
-}
+        border: none;
+        box-shadow: 5px 6px 6px 2px #e9ecef;
+        border-radius: 4px
+    }
 
-.dots {
-    height: 4px;
-    width: 4px;
-    margin-bottom: 2px;
-    background-color: #bbb;
-    border-radius: 50%;
-    display: inline-block
-}
+    .dots {
+        height: 4px;
+        width: 4px;
+        margin-bottom: 2px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block
+    }
 
-.badge {
-    padding: 7px;
-    padding-right: 9px;
-    padding-left: 16px;
-    box-shadow: 5px 6px 6px 2px #e9ecef
-}
+    .badge {
+        padding: 7px;
+        padding-right: 9px;
+        padding-left: 16px;
+        box-shadow: 5px 6px 6px 2px #e9ecef
+    }
 
-.user-img {
-    margin-top: 4px
-}
+    .user-img {
+        margin-top: 4px
+    }
 
-.check-icon {
-    font-size: 17px;
-    color: #c3bfbf;
-    top: 1px;
-    position: relative;
-    margin-left: 3px
-}
+    .check-icon {
+        font-size: 17px;
+        color: #c3bfbf;
+        top: 1px;
+        position: relative;
+        margin-left: 3px
+    }
 
-.form-check-input {
-    margin-top: 6px;
-    margin-left: -24px !important;
-    cursor: pointer
-}
+    .form-check-input {
+        margin-top: 6px;
+        margin-left: -24px !important;
+        cursor: pointer
+    }
 
-.form-check-input:focus {
-    box-shadow: none
-}
+    .form-check-input:focus {
+        box-shadow: none
+    }
 
-.icons i {
-    margin-left: 8px
-}
+    .icons i {
+        margin-left: 8px
+    }
 
-.reply {
-    margin-left: 12px
-}
+    .reply {
+        margin-left: 12px
+    }
 
-.reply small {
-    color: #b7b4b4
-}
+    .reply small {
+        color: #b7b4b4
+    }
 
-.reply small:hover {
-    color: green;
-    cursor: pointer
-}
+    .reply small:hover {
+        color: green;
+        cursor: pointer
+    }
 </style>
 {% endblock head %}
 {% block body %}
@@ -69,9 +70,8 @@
     <div class="container">
         <div class="row align-items-center justify-content-center">
             <div class="col-lg-12" data-aos="fade-up" data-aos-delay="200">
-                <img src="{%static 'home/images/img_1.jpg' %}" alt="Image"
-                    class="img-fluid w-100">
-                
+                <img src="{{ feed.image.url }}" alt="Image" class="img-fluid w-100">
+
             </div>
         </div>
     </div>
@@ -81,28 +81,19 @@
 
 <div class="site-section" id="blog-section">
     <div class="container">
-        <!-- <div class="row mb-5">
-            <div class="col-12 text-center">
-                <h2 class="section-title mb-3">Feeds</h2>
-            </div>
-        </div> -->
         <div class="row">
             <div class="col-md-12 col-lg-12 mb-4 mb-lg-4">
                 <div class="h-entry">
-                    <!-- <img src="{%static 'home/images/img_1.jpg' %}" alt="Image" class="img-fluid w-100"> -->
                     <div style="border-left: 10px solid #4285f4; padding: 20px;">
-                        <h2><a href="#">Make Your Business More Profitable</a></h2>
-                        <div class="meta mb-4">Ham Brook <span class="mx-2">&bullet;</span> Jan 18, 2019<span
-                                class="mx-2">&bullet;</span> <a href="#">News</a></div>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus eligendi nobis ea maiores
-                            sapiente
-                            veritatis reprehenderit suscipit quaerat rerum voluptatibus a eius. Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus eligendi nobis ea maiores
-                            sapiente
-                            veritatis reprehenderit suscipit quaerat rerum voluptatibus a eius. Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus eligendi nobis ea maiores
-                            sapiente
-                            veritatis reprehenderit suscipit quaerat rerum voluptatibus a eius. Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus eligendi nobis ea maiores
-                            sapiente
-                            veritatis reprehenderit suscipit quaerat rerum voluptatibus a eius.</p>
+                        <h2><a href="#">{{ feed.title}}</a></h2>
+                        <div class="meta mb-4"><a href="{% url 'user_profile' feed.author.id %}">{{ feed.author.name }}</a> <span class="mx-2">&bullet;</span> {{feed.date}}<span class="mx-2">&bullet;</span> <a href="#">{{ feed.post_type }}</a></div>
+                        <p>{{ feed.description }}</p>
+                        {% if feed.author == request.user %}
+                        <div>
+                            <a href="{% url 'update_feed' feed.id%}" class="btn btn-primary mr-2 mb-2">Update Post</a>
+                            <a href="{% url 'delete_feed' feed.id%}" class="btn btn-primary mr-2 mb-2">Delete Post</a>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -111,58 +102,47 @@
 </div>
 
 <div class="site-section bg-light" id="about-section">
-	<div class="container">
-		<div class="row mb-5">
-			<div class="col-12 text-left">
-				<h2 class="section-title mb-3">10 Comments</h2>
-			</div>
-		</div>
-
-            <div class="row d-flex justify-content-center">
-                <div class="col-md-12">
-                    <div class="card p-3">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="user d-flex flex-row align-items-center"> <img src="{%static 'home/images/person_3.jpg' %}" width="30" class="user-img rounded-circle mr-2"> <span><small class="font-weight-bold text-primary">james_olesenn</small> <small class="font-weight-bold">Hmm, This poster looks cool</small></span> </div> <small>2 days ago</small>
-                        </div>
-                    </div>
-                    <div class="card p-3 mt-3">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="user d-flex flex-row align-items-center"> <img src="{%static 'home/images/person_3.jpg' %}" width="30" class="user-img rounded-circle mr-2"> <span><small class="font-weight-bold text-primary">olan_sams</small> <small class="font-weight-bold">Loving your work and profile! </small></span> </div> <small>3 days ago</small>
-                        </div>
-                    </div>
-                    <div class="card p-3 mt-3">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="user d-flex flex-row align-items-center"> <img src="{%static 'home/images/person_3.jpg' %}" width="30" class="user-img rounded-circle mr-2"> <span><small class="font-weight-bold text-primary">rashida_jones</small> <small class="font-weight-bold">Really cool Which filter are you using? </small></span> </div> <small>3 days ago</small>
-                        </div>
-                    </div>
-                    <div class="card p-3 mt-3">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="user d-flex flex-row align-items-center"> <img src="{%static 'home/images/person_3.jpg' %}" width="30" class="user-img rounded-circle mr-2"> <span><small class="font-weight-bold text-primary">simona_rnasi</small> <small class="font-weight-bold text-primary">@macky_lones</small> <small class="font-weight-bold text-primary">@rashida_jones</small> <small class="font-weight-bold">Thanks </small></span> </div> <small>3 days ago</small>
-                        </div>
-                    </div>
-                </div>
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-12 text-left">
+                <h2 class="section-title mb-3">{{ comment.count }} Comments</h2>
             </div>
+        </div>
 
-
-
-
-
-<br><br>
-		<div class="row mb-5">
-			<div class="col-lg-12">
-				<h2 class="text-black mb-4 h3 font-weight-bold">Leave a Reply</h2>
-				<form action="">
-                    <div class="row form-group">
-                        <div class="col-md-12">
-                            <label class="text-black" for="message">Message</label>
-                            <textarea name="message" id="message" cols="30" rows="7" class="form-control rounded-0"
-                                placeholder="Leave your message here..."></textarea>
-                        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-12">
+                {% for commen in comment %}
+                <div class="card p-3 mb-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="user d-flex flex-row align-items-center"> <img
+                                src="{%static 'home/images/person_3.jpg' %}" width="30"
+                                class="user-img rounded-circle mr-2"> <span><small
+                                    class="font-weight-bold text-primary"><a href="{% url 'user_profile' commen.by_user.id %}">{{ commen.by_user.name }}</a></small> <small
+                                    class="font-weight-bold">{{ commen.text }}</small></span> </div> <small>{{commen.date}}</small>
                     </div>
-				    <p><a href="#" class="btn btn-primary">Comment</a></p>
-                </form>
-			</div>
-		</div>
-	</div>
+                    {% if commen.by_user == request.user %}<br>
+                    <a href="{% url 'delete-comment' commen.id %}">[Delete]</a>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+
+
+
+
+    <br><br>
+    <div class="row mb-5">
+        <div class="col-lg-12">
+            <h2 class="text-black mb-4 h3 font-weight-bold">Leave a Reply</h2>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form|crispy}}
+                <button type="submit" class="btn btn-primary">Comment</button>
+            </form>
+        </div>
+    </div>
+</div>
 </div>
 {% endblock body %}

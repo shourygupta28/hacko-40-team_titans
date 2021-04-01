@@ -14,7 +14,7 @@ class UserRegistrationForm(UserCreationForm):
 
 	class Meta(UserCreationForm.Meta):
 		model 		= User
-		fields 		= ['name','email','contact_no', 'password1','password2']
+		fields 		= ['name','email','contact_no', 'account_no', 'password1','password2']
 
 class RatingsForm(forms.ModelForm):
 	class Meta():

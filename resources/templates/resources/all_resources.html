@@ -1,0 +1,88 @@
+{% extends "home/base.html" %}
+{% load static %}
+{% block head %}
+{% endblock head %}
+{% block body %}
+<div class="site-blocks-cover" style="overflow: hidden;">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-md-12" style="position: relative;" data-aos="fade-up" data-aos-delay="200">
+                <img src="{%static 'home/images/undraw_bookmarks_r6up.svg' %}" alt="Image"
+                    class="img-fluid img-absolute">
+                <div class="row mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="col-lg-6 mr-auto">
+                        <h1>All Resources</h1>
+                        <br><br>
+                        <div>
+                            <a href="{% url 'post_resource' %}" class="btn btn-primary mr-2 mb-2">Post a Resource</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="site-section" id="our-team-section">
+	<div class="container">
+
+        <div class="author-box" data-aos="fade-right">
+            <div class="d-flex mb-4">
+                <div class="mr-auto text-black">
+                    <h2><strong class="font-weight-bold mb-0">Apply Filters</strong></h2>
+                </div>
+            </div>
+            <form action="">
+                <div class="row form-group">
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <label class="text-black" for="fname">Year</label>
+                        <input type="text" name="year" class="form-control rounded-0">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="text-black" for="lname">Branch</label>
+                        <input type="text" name="branch" class="form-control rounded-0">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="text-black" for="lname">Subject Code</label>
+                        <input type="text" name="subject" class="form-control rounded-0">
+                    </div>
+                </div>
+                <div>
+                    <input type="submit" value="Search" class="btn btn-primary mr-2 mb-2">
+                    <a href="{% url 'all-resources' %}" class="btn btn-primary mr-2 mb-2">Clear Search</a>
+                </div>
+            </form>
+        </div>
+		
+
+		<div class="row mt-5">
+            {% for resource in resources %}
+			<div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+				<div class="person">
+					<iframe frameborder="0" scrolling="no"
+                        width="100%" height="20%"
+                        src="{{resource.preview.url}}">
+                    </iframe>
+					<h2 class="text-black h1">{{resource.title}}</h2>
+					<span class="sub-title d-block mb-3">By: {{resource.owner.name}}</span>
+                    <div class="meta mb-2">{{resource.subject.subject_code}} <span class="mx-2">&bullet;</span>{{resource.subject.subject_name}}<span
+                        class="mx-2">&bullet;</span> <a href="#">{{resource.owner.ratings}}/5</a></div>
+                    <h2 class="text-black h1"><i class="fas fa-coins"></i> {{resource.cost}}</h2>
+					<p>{{resource.description}}</p>
+                    <div>
+                        <a href="{% url 'buy_resource' resource.id %}" class="btn btn-primary mr-2 mb-2">Buy Now</a>
+                    </div>
+                    {% if request.user in resource.liked_by.all %}
+                    <span><a class="btn btn-primary mr-2 mb-2" href="{% url 'dislike_resource_1' resource.id %}"><i class="fas fa-heart"></i></a></span><span style="font-size: 18px;">  {{resource.liked_by.count}}</span>
+                    {% else %}
+                    <span><a class="btn btn-primary mr-2 mb-2" href="{% url 'like_resource_1' resource.id %}"><i class="far fa-heart"></i></a></span><span style="font-size: 18px;">  {{resource.liked_by.count}}</span>
+                    {% endif %}
+				</div>
+			</div>
+            {% endfor %}
+		</div>
+	</div>
+</div>
+{% endblock body %}
